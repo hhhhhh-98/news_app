@@ -2,12 +2,8 @@
 	<view class="tabs">
 		<view class="page-header">
 			<view class="page-header-wrapper">
-				<view class="page-header-left"><uni-icons type="scan" color="#fafafa" size="25" /></view>
-				<view class="page-header-center"><text class="search-input" @blur="find()">输入关键字搜索</text></view>
-				<view class="page-header-right" @click="toUrl('/pages/list/create')">
-					<uni-icons type="camera" color="#fafafa" size="25" />
-					<text class="contribute-text">发布</text>
-				</view>
+				<view class="page-header-center"><input class="search-input" @input="find()" v-model="findtxt" placeholder="输入关键字搜索"></view>
+				
 			</view>
 		</view>
 		<scroll-view id="tab-bar" class="scroll-h" :scroll-x="true" :show-scrollbar="false" :scroll-into-view="scrollInto">
@@ -77,6 +73,7 @@ export default {
 	},
 	data() {
 		return {
+			findtxt:"",
 			newsList: [],
 			newsData: [],
 			cacheTab: [],
@@ -148,43 +145,23 @@ export default {
 			};
 			let url = 'details';
 			uni.navigateTo({
-				url: '`/pages/details/${url}?data=${JSON.stringify(data)}`'
+				url: `/pages/details/${url}?data=${JSON.stringify(data)}`
 			});
 		},
-<<<<<<< HEAD
-		getList(index) {
-			uni.request({
 
-						url:"/api/toutiao/index",
-						data:{
-							key:'b64be5563887bfa08438a814cf90adc4',
-							is_filter:1,
-							type:'top',
-						},
-						header:{},
-						method:"GET",
-						success:(res)=>{
-							if (res.resultcode === '112') {
-								alert('请求超过每日限制');
-								return;
-
-							}
-							const { data } = res.data.result;
-							this.newsData = data;
-							let list = Object.values(this.newsData);
-							activeTab.data = activeTab.data.concat(list);
-						},
-						fail(err) {
-							reject(err);
-						}
-					})
-=======
-		find(text) {
->>>>>>> 7f2fd05d5504ac260f193228e19583b87f33c1d1
-			let activeTab = this.newsList[index];
-			activeTab.data = activeTab.data.filter((item) => {
-				item.titie.includes(text);
-			})
+		find() {
+			let activeTab = this.newsList[0];
+			console.log(this.newsList);
+			let data = this.newsList[0].data;
+			let res = [];
+			for(let i = 0 ; i < data.length; i++){
+				if(data[i].title.includes(this.findtxt)){
+					res.push(data[i]);
+				}
+			}
+			activeTab.data = res
+			console.log(res)
+		//	this.newsData = res;	
 		},
 		async getList(index, type) {
 			let activeTab = this.newsList[index];

@@ -94,6 +94,13 @@
 				</view>
 				<text class="icon-arrow-down"></text>
 			</view>
+			<view class="item">
+				<view class="wrap">
+					<text class="icon-yijianfankui1"></text>
+					<text>我要反馈</text>
+				</view>
+				<text class="icon-arrow-down"></text>
+			</view>
 		</view>
 	
 	</view>
