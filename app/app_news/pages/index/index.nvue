@@ -174,8 +174,9 @@ export default {
 				url: `/pages/details/${url}?data=${JSON.stringify(data)}`
 			});
 		},
-		getNewsData(type) {
+		getList(index) {
 			uni.request({
+<<<<<<< HEAD:app/app_news/pages/index/index.nvue
 							url:"/api/toutiao/index",
 							data:{
 								key:this.$globle.app_key,
@@ -191,15 +192,32 @@ export default {
 							},
 							fail(err) {
 								console.log(res);
+=======
+						url:"/api/toutiao/index",
+						data:{
+							key:'b64be5563887bfa08438a814cf90adc4',
+							is_filter:1,
+							type:'top',
+						},
+						header:{},
+						method:"GET",
+						success:(res)=>{
+							if (res.resultcode === '112') {
+								alert('请求超过每日限制');
+								return;
+>>>>>>> master:仿新闻仿头条首页/pages/index/index.nvue
 							}
-						})
-		},
-		getList(index) {
+							const { data } = res.data.result;
+							this.newsData = data;
+							let list = Object.values(this.newsData);
+							activeTab.data = activeTab.data.concat(list);
+						},
+						fail(err) {
+							reject(err);
+						}
+					})
 			let activeTab = this.newsList[index];
-			this.getNewsData('top');
-			console.log(this.newsData);
-			console.log(this);
-			let list = Object.values(this.newsData);
+			
 			/* for (let i = 1; i <= 10; i++) {
 				console.log(this);
 				let item = Object.assign({}, newsData['data']);
@@ -207,7 +225,6 @@ export default {
 				item.id = this.newGuid();
 				list.push(item);
 			} */
-			activeTab.data = activeTab.data.concat(list);
 		},
 		close(index1, index2) {
 			uni.showModal({
