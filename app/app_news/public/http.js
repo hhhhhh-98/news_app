@@ -1,17 +1,12 @@
-const baseUrl = '/api/toutiao/index'
 const http = {}
-const httpRequest = (method, url, data) => {
+const httpRequest = (url, method, query) => {
 	var promise = new Promise(function(resolve, reject) {
 		uni.request({
-			url: baseUrl,
-			data: data,
+			url: url,
+			data: query,
 			method: method,
 			success: ((res) => {
-					if (res.data.errcode == 0) {
-						resolve(res.data.data)
-					} else {
-						resolve(res.data.data)
-					} 
+						resolve(res)
 			}),
 			fail: ((err) => {
 				reject(err)
@@ -20,15 +15,13 @@ const httpRequest = (method, url, data) => {
 	});
 	return promise;
 }
+// 请求新闻列表接口
+http.getProductList = (query) => {
+	return httpRequest('/api/toutiao/index', 'GET', query);
+}
+// 请求新闻详情接口
+http.getProductDetail = (query) => {
+	return httpRequest('/api/toutiao/content', 'GET', query);
+} 
 
-const httpGet = (url, data) => {
-	return httpRequest('Get', url, data)
-}
-const httpPost = (url, data) => {
-	return httpRequest('POST', url, data)
-}
-
-http.getProductList = (data) => {
-	return httpPost('', data)
-}
 export default http

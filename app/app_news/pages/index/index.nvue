@@ -3,7 +3,7 @@
 		<view class="page-header">
 			<view class="page-header-wrapper">
 				<view class="page-header-left"><uni-icons type="scan" color="#fafafa" size="25" /></view>
-				<view class="page-header-center"><text @click="toUrl('/pages/search/search')" class="search-input">输入关键字搜索</text></view>
+				<view class="page-header-center"><text class="search-input" @blur="find()">输入关键字搜索</text></view>
 				<view class="page-header-right" @click="toUrl('/pages/list/create')">
 					<uni-icons type="camera" color="#fafafa" size="25" />
 					<text class="contribute-text">发布</text>
@@ -81,23 +81,16 @@ export default {
 			newsData: [],
 			cacheTab: [],
 			tabIndex: 0,
+			tabType: 'guonei',
 			lastIndex: 0, //上一次的坐标
 			tabBars: [
 				{
-					name: '关注',
-					id: 'guanzhu'
+					name: '国内',
+					id: 'guonei'
 				},
 				{
-					name: '推荐',
-					id: 'tuijian'
-				},
-				{
-					name: '体育',
-					id: 'tiyu'
-				},
-				{
-					name: '热点',
-					id: 'redian'
+					name: '国际',
+					id: 'guoji'
 				},
 				{
 					name: '财经',
@@ -112,28 +105,12 @@ export default {
 					id: 'junshi'
 				},
 				{
-					name: '历史',
-					id: 'lishi'
-				},
-				{
-					name: '本地',
-					id: 'bendi'
-				},
-				{
 					name: '科技',
 					id: 'keji'
 				},
 				{
-					name: '图片',
-					id: 'tupian'
-				},
-				{
-					name: '音频',
-					id: 'yinpin'
-				},
-				{
-					name: '问答',
-					id: 'wenda'
+					name: '汽车',
+					id: 'qiche'
 				},
 			],
 			scrollInto: '',
@@ -162,18 +139,19 @@ export default {
 			return this.tabIndex == index;
 		},
 		//新闻详情
-		goDetail(item, index) {
+		goDetail(item) {
 			let data = {
-				id: index,
+				id: item.uniquekey,
 				title: item.title,
-				author: '详情',
-				time: item.datetime
+				author: item.author_name,
+				time: item.date
 			};
-			let url = item.isVideo == true ? 'videoDetails' : 'details';
+			let url = 'details';
 			uni.navigateTo({
-				url: `/pages/details/${url}?data=${JSON.stringify(data)}`
+				url: '`/pages/details/${url}?data=${JSON.stringify(data)}`'
 			});
 		},
+<<<<<<< HEAD
 		getList(index) {
 			uni.request({
 
@@ -200,8 +178,26 @@ export default {
 							reject(err);
 						}
 					})
+=======
+		find(text) {
+>>>>>>> 7f2fd05d5504ac260f193228e19583b87f33c1d1
 			let activeTab = this.newsList[index];
-			
+			activeTab.data = activeTab.data.filter((item) => {
+				item.titie.includes(text);
+			})
+		},
+		async getList(index, type) {
+			let activeTab = this.newsList[index];
+			const query = {
+				key:this.$globle.app_key,
+				is_filter:1,
+				type: type ? type : 'top', 
+			}
+			let res = await this.$request.getProductList(query);
+			const { data } = res.data.result;
+			this.newsData = data;
+			let list = Object.values(this.newsData);
+			activeTab.data = activeTab.data.concat(list);	
 			/* for (let i = 1; i <= 10; i++) {
 				console.log(this);
 				let item = Object.assign({}, newsData['data']);
@@ -231,11 +227,14 @@ export default {
 		},
 		ontabchange(e) {
 			let index = e.target.current || e.detail.current;
+			console.log(e);
 			this.switchTab(index);
 		},
 		switchTab(index) {
+			// 获取新闻类型
+			this.tabType = this.tabBars[index].id;
 			if (this.newsList[index].data.length === 0) {
-				this.getList(index);
+				this.getList(index, this.tabType);
 			}
 
 			if (this.tabIndex === index) {
@@ -252,8 +251,6 @@ export default {
 			}
 
 			this.tabIndex = index;
-			console.log(this.tabIndex);
-			console.log(this.lastIndex);
 
 			if (this.tabIndex < 5 && this.lastIndex < this.tabIndex) {
 				this.lastIndex = this.tabIndex;
@@ -277,7 +274,9 @@ export default {
 		},
 		refreshData() {},
 		onrefresh(e) {
-			var tab = this.newsList[this.tabIndex];
+			this.tabType = this.tabBars[this.tabIndex].id;
+			var tab = this.newsList[this.tabIndex, this.tabType];
+			console.log(this.tabType);
 			if (!tab.refreshFlag) {
 				return;
 			}
@@ -297,7 +296,9 @@ export default {
 			}, 2000);
 		},
 		onpullingdown(e) {
-			var tab = this.newsList[this.tabIndex];
+			this.tabType = this.tabBars[this.tabIndex].id;
+			var tab = this.newsList[this.tabIndex, this.tabType];
+			console.log(this.tabType);
 			if (tab.refreshing || this.pulling) {
 				return;
 			}

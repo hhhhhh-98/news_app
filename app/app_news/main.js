@@ -9,8 +9,9 @@ Vue.prototype.$store = store
 */
 //全局变量配置文件
 import globle from './globle.js'
+import http from './public/http.js'
 Vue.prototype.$globle = globle;
-
+Vue.prototype.$request = http;
 
 Vue.config.productionTip = false
 App.mpType = 'app'
