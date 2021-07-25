@@ -11,6 +11,16 @@
 			}
 		},
 		{
+			"path": "pages/video/index",
+			"style": {
+				// "navigationBarTitleText": "首页",
+				"app-plus": {
+					"titleNView": false, //禁用原生导航栏
+					"softinputNavBar": "none"
+				}
+			}
+		},
+		{
 			"path": "pages/details/details",
 			"style": {
 				"navigationBarTitleText": "详情",
@@ -53,7 +63,7 @@
 				"selectedIconPath": "static/index.png"
 			},
 			{
-				"pagePath": "pages/index/index",
+				"pagePath": "pages/video/index",
 				"text": "推荐视频",
 				"iconPath": "static/index_change.png",
 				"selectedIconPath": "static/index.png"
