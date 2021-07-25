@@ -210,7 +210,6 @@ export default {
 	methods: {
 		//获取推荐列表
 		async loadNewsList() {
-			console.log(this.detailData);
 			const query = {
 				key: this.$globle.app_key,
 				uniquekey: this.detailData.id,

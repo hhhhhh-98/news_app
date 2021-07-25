@@ -44,6 +44,30 @@
 					"bounce": "none"
 				}
 			}
+		},
+		{
+			"path": "pages/login/login",
+			"style": {
+				"navigationBarTitleText": "登录",
+				"navigationBarBackgroundColor": "#ec706b",
+				"backgroundColor": "#f8f8f8",
+				"app-plus": {
+					"navigationBarTextStyle": "white",
+					"bounce": "none"
+				}
+			}
+		},
+		{
+			"path": "pages/account/account",
+			"style": {
+				"navigationBarTitleText": "个人",
+				"navigationBarBackgroundColor": "#ec706b",
+				"backgroundColor": "#f8f8f8",
+				"app-plus": {
+					"navigationBarTextStyle": "white",
+					"bounce": "none"
+				}
+			}
 		}
 	],
 	"globalStyle": {
@@ -65,14 +89,14 @@
 			{
 				"pagePath": "pages/video/index",
 				"text": "推荐视频",
-				"iconPath": "static/index_change.png",
-				"selectedIconPath": "static/index.png"
+				"iconPath": "static/wodexuexi.png",
+				"selectedIconPath": "static/wodexuexi.png"
 			},
 			{
-				"pagePath": "pages/index/index",
+				"pagePath": "pages/account/account",
 				"text": "个人",
-				"iconPath": "static/index_change.png",
-				"selectedIconPath": "static/index.png"
+				"iconPath": "static/zhanghu.png",
+				"selectedIconPath": "static/zhanghu.png"
 			}
 		]
 	}

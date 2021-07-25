@@ -1,8 +1,8 @@
 <template>
 	<view class="tabs">
 		<view class="page-header">
-				<view class="page-header-wrapper">
-				<view class="page-header-center"><input class="search-input" @input="find(text)" placeholder="输入关键字搜索"></view>
+			<view class="page-header-wrapper">
+				<view class="page-header-center"><input class="search-input" @input="find()" v-model="findtxt" placeholder="输入关键字搜索"></view>
 			</view>
 		</view>
 		<scroll-view id="tab-bar" class="scroll-h" :scroll-x="true" :show-scrollbar="false" :scroll-into-view="scrollInto">
@@ -72,6 +72,7 @@ export default {
 	},
 	data() {
 		return {
+			findtxt:"",
 			newsList: [],
 			newsData: [],
 			cacheTab: [],
@@ -147,20 +148,21 @@ export default {
 				url: `/pages/details/${url}?data=${JSON.stringify(data)}`
 			});
 		},
-			find() {
-				let activeTab = this.newsList[0];
-				console.log(this.newsList);
-				let data = this.newsList[0].data;
-				let res = [];
-				for(let i = 0 ; i < data.length; i++){
-					if(data[i].title.includes(this.text)){
-						res.push(data[i]);
-					}
+
+		find() {
+			let activeTab = this.newsList[0];
+			console.log(this.newsList);
+			let data = this.newsList[0].data;
+			let res = [];
+			for(let i = 0 ; i < data.length; i++){
+				if(data[i].title.includes(this.findtxt)){
+					res.push(data[i]);
 				}
-				activeTab.data = res
-				console.log(res)
-			//	this.newsData = res;	
-			},
+			}
+			activeTab.data = res
+			console.log(res)
+		//	this.newsData = res;	
+		},
 		async getList(index, type) {
 			if (this.tabIndex) {
 				index = this.tabIndex;
