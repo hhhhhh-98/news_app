@@ -25,10 +25,6 @@
 							<text class="yticon icon-fenxiang2"></text>
 							<text>分享</text>
 						</view>
-						<view class="action-item">
-							<text class="yticon icon-shoucang active"></text>
-							<text>收藏</text>
-						</view>
 					</view>
 				</view>
 
