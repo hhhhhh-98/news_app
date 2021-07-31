@@ -117,16 +117,15 @@
 </style>
 <template>
 	<view class="container">
-		<image src="./head_portrait.png" mode=""></image>
+		<image src="../../static/head_portrait.png" mode=""></image>
 		<view>
-			<input v-model="phone_number" placeholder-class="phClass" maxlength="14" class="phone_number" type="number"
-			 placeholder="请输入账号" />
+			<input v-model="account" placeholder-class="phClass" maxlength="14" class="phone_number" type="number" placeholder="请输入账号" />
 		</view>
 		<view>
-			<input v-model="phone_password" placeholder-class="phClass" maxlength="14" class="phone_number" type="number"
+			<input v-model="password" placeholder-class="phClass" maxlength="14" class="phone_number" type="password"
 			 placeholder="密码" />
 		</view>
-		<view @click="login" class="btn">登录</view>
+		<view class="btn" @click="register()">注册/登录</view>
 		<view class="agree">
 			<radio @click="change" :checked="is_true" />
 			同意<a href="">❬❬使用条款和数据隐私政策❭❭</a>
@@ -138,31 +137,41 @@
 		data() {
 			return {
 				is_true: true,
-				phone_number: "",
-				//用户输入得验证码
-				phone_password: null,
+				account: "",
+				password: "",
 				is_click: true,
 			}
 		},
 		onLoad: function() {
-			
+
 		},
 		methods: {
 			change() {
 				this.is_true = !this.is_true
 			},
-		login() {
-				console.log(this.$store.state);
-				var that = this;
-				if (that.is_true == false) {
-					uni.showToast({
-						"title": "请同意用户协议",
-						"icon": "none"
-					});
-					return;
+			async register() {
+				const res = await this.$request.registerAccount({
+					account: this.account,
+					password: this.password
+				})
+				if (res.data.status === 200) {
+					this.$store.state.login = true;
+					this.$store.state.user = res.data.data;
+					this.$forceUpdate();
+					uni.switchTab({
+						url: "/pages/index/index",
+						success() {
+							let page = getCurrentPages().pop(); //跳转页面成功之后
+							if (!page) return;
+							page.onLoad();
+						}
+
+					})
+				} else {
+					alert(res.data.message);
 				}
-				
-			},
-		}
+			}
+		},
+
 	}
 </script>

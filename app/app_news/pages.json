@@ -68,6 +68,18 @@
 					"bounce": "none"
 				}
 			}
+		},
+		{
+			"path": "pages/userDetail/userDetail",
+			"style": {
+				"navigationBarTitleText": "详细信息",
+				"navigationBarBackgroundColor": "#ec706b",
+				"backgroundColor": "#f8f8f8",
+				"app-plus": {
+					"navigationBarTextStyle": "white",
+					"bounce": "none"
+				}
+			}
 		}
 	],
 	"globalStyle": {

@@ -52,10 +52,7 @@
 							<view class="eva-right">
 								<text>{{ item.nickname }}</text>
 								<text>{{ item.time }}</text>
-								<view class="zan-box">
-									<text>{{ item.zan }}</text>
-									<text class="yticon icon-shoucang"></text>
-								</view>
+							
 								<text class="content">{{ item.content }}</text>
 							</view>
 						</view>
@@ -206,6 +203,12 @@ export default {
 		this.detailData = JSON.parse(options.data);
 		this.loadNewsList();
 		this.loadEvaList();
+	},
+	onShow() {
+		console.log("=====================")
+		console.log(this.$globle.hashCode(this.detailData.title));
+		console.log(this.$globle.app_key);
+		console.log("=====================")
 	},
 	methods: {
 		//获取推荐列表

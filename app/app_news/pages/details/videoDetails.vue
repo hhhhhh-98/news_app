@@ -108,12 +108,19 @@ export default {
 			evaList: []
 		};
 	},
+	onShow() {
+		console.log("=====================")
+		console.log(this.$globle.hashCode(this.detailData.title));
+		console.log(this.$globle.app_key);
+		console.log("=====================")
+	},
 	onLoad(options) {
 		console.log(options.data);
 		this.detailData = JSON.parse(options.data);
 		this.loadNewsList();
 		this.loadEvaList();
 	},
+	
 	methods: {
 		//获取推荐列表
 		async loadNewsList() {
