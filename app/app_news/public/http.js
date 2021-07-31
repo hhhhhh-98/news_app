@@ -23,5 +23,7 @@ http.getProductList = (query) => {
 http.getProductDetail = (query) => {
 	return httpRequest('/api/toutiao/content', 'GET', query);
 } 
-
+http.getVideoList = (query) => {
+	return httpRequest('/videoapi/fapig/douyin/billboard', 'GET', query);
+}
 export default http

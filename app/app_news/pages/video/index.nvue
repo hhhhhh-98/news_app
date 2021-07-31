@@ -1,17 +1,5 @@
 <template>
 	<view class="tabs">
-		<view class="page-header">
-			<view class="page-header-wrapper">
-				<view class="page-header-center"><input class="search-input" @input="find()" v-model="findtxt" placeholder="输入关键字搜索"></view>
-			</view>
-		</view>
-		<scroll-view id="tab-bar" class="scroll-h" :scroll-x="true" :show-scrollbar="false" :scroll-into-view="scrollInto">
-			<view v-for="(tab, index) in tabBars" :key="tab.id" class="uni-tab-item" :id="tab.id" :data-current="index" @click="ontabtap">
-				<text class="uni-tab-item-title" :class="isScroll(index) ? 'uni-tab-item-title-active' : ''">{{ tab.name }}</text>
-				<!-- 下划线 -->
-				<view style="width:100%" :class="isScroll(index) ? 'underlinebox' : 'underlinebox-active'"><view class="underline"></view></view>
-			</view>
-		</scroll-view>
 		<view class="line-h"></view>
 		<swiper :current="tabIndex" class="swiper-box" style="flex: 1;" :duration="300" @change="ontabchange">
 			<swiper-item class="swiper-item" v-for="(tab, index1) in newsList" :key="index1">
@@ -72,11 +60,9 @@ export default {
 	},
 	data() {
 		return {
-			findtxt:"",
 			newsList: [],
 			newsData: [],
 			cacheTab: [],
-			text: '',
 			tabIndex: 0,
 			tabType: 'guonei',
 			lastIndex: 0, //上一次的坐标
@@ -148,34 +134,32 @@ export default {
 				url: `/pages/details/${url}?data=${JSON.stringify(data)}`
 			});
 		},
-
-		find() {
-			let activeTab = this.newsList[0];
-			console.log(this.newsList);
-			let data = this.newsList[0].data;
-			let res = [];
-			for(let i = 0 ; i < data.length; i++){
-				if(data[i].title.includes(this.findtxt)){
-					res.push(data[i]);
+			find() {
+				let activeTab = this.newsList[0];
+				console.log(this.newsList);
+				let data = this.newsList[0].data;
+				let res = [];
+				for(let i = 0 ; i < data.length; i++){
+					if(data[i].title.includes(this.text)){
+						res.push(data[i]);
+					}
 				}
-			}
-			activeTab.data = res
-			console.log(res)
-		//	this.newsData = res;	
-		},
+				activeTab.data = res
+				console.log(res)
+			//	this.newsData = res;	
+			},
 		async getList(index, type) {
 			if (this.tabIndex) {
 				index = this.tabIndex;
 			}
 			let activeTab = this.newsList[index];
 			const query = {
-				key:this.$globle.app_key,
-				is_filter:1,
-				type: type ? type : 'top', 
+				key:this.$globle.video_key,
+				type: 'hot_video', 
 			}
-			let res = await this.$request.getProductList(query);
-			const { data } = res.data.result;
-			this.newsData = data;
+			let res = await this.$request.getVideoList(query);
+			const { result } = res.data;
+			this.newsData = result;
 			let list = Object.values(this.newsData);
 			activeTab.data = activeTab.data.concat(list);
 			/* for (let i = 1; i <= 10; i++) {

@@ -13,11 +13,12 @@ export default {
 </script>
 
 <style>
-/*每个页面公共css */
-/*隐藏滚动条*/
-::-webkit-scrollbar {
-	width: 0;
-	height: 0;
-	color: transparent;
-}
+	/*每个页面公共css */
+	/*隐藏滚动条*/
+	::-webkit-scrollbar {
+		width: 0;
+		height: 0;
+		color: transparent;
+	}
 </style>
+

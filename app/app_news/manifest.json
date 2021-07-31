@@ -78,7 +78,15 @@
 	                        "pathRewrite": {  //使用代理； 告诉他你这个连接要用代理
 	                            "^/api": "/"  
 	                        }  
-	                    }  
+	                    },
+						"/videoapi": {
+						    "target": "http://apis.juhe.cn",  //请求的目标域名
+						    "changeOrigin": true,   
+						    "secure": false,
+						    "pathRewrite": {  //使用代理； 告诉他你这个连接要用代理
+						        "^/videoapi": "/"  
+						    }  
+						}
 	                }  
 	            }  
 	        }
