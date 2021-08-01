@@ -1,5 +1,6 @@
 export default {
   app_key:"88d40dbfd944f0e6ce3366c878238848",
+  imgUrl: "http://127.0.0.1:7001/getImg?img=",
   //方法写在下面 注释写上方法的作用和参数的意义
   
   /*
@@ -29,5 +30,7 @@ export default {
               hash ^= ((hash << 5) + ch + (hash >> 2));
           }
           return  (hash & 0x7FFFFFFF);
-  }
+  },
+  
+
 }

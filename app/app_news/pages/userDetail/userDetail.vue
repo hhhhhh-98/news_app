@@ -37,6 +37,7 @@
 	export default {
 		data() {
 			return {
+				img: "",
 				user:{
 					headImg,
 					account,
@@ -59,50 +60,31 @@
 				this.password = ''
 				
 			},
-			changImg(){
+			async changImg(){
 				uni.chooseImage({
-				    success: (chooseImageRes) => {
+				    success:async (chooseImageRes) => {
 				        const tempFilePaths = chooseImageRes.tempFilePaths;
-				        uni.uploadFile({
-				            url: this.$store.state.weburl+'/uploadvideo', //仅为示例，非真实的接口地址
-				            filePath: tempFilePaths[0],
-				            name: 'file',
-				            formData: {
-				               
-				            },
-				            success: (uploadFileRes) => {
-								let data = JSON.parse(uploadFileRes.data)
-								this.img =  this.$store.state.weburl+"/getImg?img="+data.msg;
-								console.log(data.msg);
-				            //    console.log(uploadFileRes.data.msg);
-				            }
-				        });
+				        const res =await this.$request.uploadImg(
+						{},tempFilePaths)
+						this.img = this.$globle.imgUrl + res.data.fileName;
+						this.$forceUpdate();
+						this.user.headImg = res.data.fileName;
 				    }
 				});
 			},
 			
-			submit() {
-				uni.request({
-					url:this.$store.state.weburl+"/updateUser",
-					data:{id:this.$store.state.user,img:this.img,mail:this.mail,name:this.name},
-					header:{},
-					method:"POST",
-					success:(res)=>{
-						uni.redirectTo({
-							url:"../account/account",
-							fail(res) {
-								console.log(res)
-							}
-						})
-					},
-					fail(err) {
-						console.log(res);
-					}
+			async submit() {
+				const res = await this.$request.updateUser({
+					user:this.user
 				})
+				if(res.data.status == 200){
+					this.$store.state.user = res.data.user;
+				}
 			}
 		},
 		onShow() {
 			this.user = {...this.$store.state.user};
+			this.img = this.$globle.imgUrl + this.user.headImg;
 		},
 		mounted() {
 			

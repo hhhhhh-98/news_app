@@ -72,7 +72,7 @@
 			<view  class="icon" v-if="isShow">登录/注册</view>
 		</view>
 		<view class="item_list">
-			<view class="item">
+			<view class="item" @click="toPassword()">
 				<view class="wrap">
 					<text class="icon-icon-"></text>
 					<text>修改密码</text>
@@ -94,7 +94,7 @@
 				</view>
 				<text class="icon-arrow-down"></text>
 			</view>
-			<view class="item">
+			<view class="item" @click="toFeedBack()">
 				<view class="wrap">
 					<text class="icon-yijianfankui1"></text>
 					<text>我要反馈</text>
@@ -123,7 +123,7 @@
 			this.city = this.$store.state.user.city || "";
 			this.isShow = !this.$store.state.login;
 			if(!this.isShow)
-				this.avatar = "../../static/head_portrait.png";
+				this.avatar = this.$globle.imgUrl +this.$store.state.user.headImg;
 		},
 		methods:{
 			toDetail(){
@@ -134,6 +134,49 @@
 				else
 					uni.navigateTo({
 						url:"/pages/userDetail/userDetail"
+					})
+			},
+			toPassword() {
+				if(!this.$store.state.login)
+					uni.navigateTo({
+						url:"/pages/login/login"
+					})
+				else
+					uni.navigateTo({
+						url:"/pages/password/password"
+					})
+			},
+			
+			toComment() {
+				if(!this.$store.state.login)
+					uni.navigateTo({
+						url:"/pages/login/login"
+					})
+				else
+					uni.navigateTo({
+						url:"/pages/userDetail/userDetail"
+					})
+			},
+			
+			toCollect() {
+				if(!this.$store.state.login)
+					uni.navigateTo({
+						url:"/pages/login/login"
+					})
+				else
+					uni.navigateTo({
+						url:"/pages/userDetail/userDetail"
+					})
+			},
+			
+			toFeedBack() {
+				if(!this.$store.state.login)
+					uni.navigateTo({
+						url:"/pages/login/login"
+					})
+				else
+					uni.navigateTo({
+						url:"/pages/feedback/feedback"
 					})
 			}
 		}

@@ -50,6 +50,10 @@ module.exports = appInfo => {
     origin: '*',
     allowMethods: 'GET,HEAD,PUT,POST,DELETE,PATCH,OPTIONS',
   };
+
+  config.multipart = {
+    mode: 'file'
+  };
   // add your user config here
   const userConfig = {
     // myAppName: 'egg',
@@ -58,6 +62,8 @@ module.exports = appInfo => {
     ...config,
     ...userConfig,
   };
+
+ 
 };
 // eslint-disable-next-line eggache/no-override-exports
 

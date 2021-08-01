@@ -1,7 +1,7 @@
 "use strict";
 
 const Controller = require("egg").Controller;
-const fs = require('fs');
+const fs = require("fs");
 
 const Util = require("../util/index");
 
@@ -49,26 +49,89 @@ class index extends Controller {
     }
   }
 
+  //重置密码
+  async resetpassword() {
+    let query = this.ctx.request.body;
+    let account = query.account;
+    let password = query.password;
+    const { ctx } = this;
+    const Md5 = Util.Md5();
+    try {
+      await this.app.mysql.update(
+        "user",
+        {
+          password: Md5.update(password).digest("hex"),
+        },
+        { where: { account: account } }
+      );
+      ctx.body = {
+        status: 200,
+        message: "修改密码成功",
+        data: {},
+      };
+    } catch (error) {
+      ctx.body = error;
+    }
+  }
+
+  //上传图片
   async uploadImage() {
-    console.log(this.ctx.request);
-    var file = this.ctx.request.files[0];
-    var name = file.filename;
-    var dist = "app/public/upload/" + name;
-    let result = await new Promise((resolve, reject) => {
-      fs.copyFile(file.filepath, dist, (error) => {
-        if (error) {
-          reject(error);
-          console.log("fail");
-        } else {
-          resolve(true);
-          console.log("success");
-        }
-      });
-    });
-    this.ctx.response.body = {
-      state: result,
-      filename: name,
+    const { ctx } = this;
+    const file = ctx.request.files[0];
+    const name = +new Date().getTime() + file.filename;
+    const dist = 'app/public/upload/' + name;
+    const img = fs.readFileSync(file.filepath);
+    fs.writeFileSync(dist, img);
+    ctx.response.body = {
+      status: 200,
+      fileName: name,
     };
+  }
+
+  //获取图片
+  async getImg() {
+    const { ctx } = this;
+    const url = 'app/public/upload/' + ctx.query.img; 
+    console.log(url);
+    ctx.set('content-type', 'image/jpeg')
+    ctx.body = fs.createReadStream(url);
+  }
+
+  //修改个人信息
+  async updateUser() {
+    const { ctx } = this;
+    const query = ctx.request.body;
+    const user = query.user;
+    const account = user.account;
+    this.app.mysql.update(
+      'user',
+      user
+      ,
+      { where: { account: account } }
+    );
+    ctx.body = {
+      status: 200,
+      user: user,
+    }
+  }
+
+  //提交反馈
+  async insertFeedBack() {
+    const { ctx } = this;
+    const query = ctx.request.body;
+    const account = query.account;
+    const title = query.title;
+    const description = query.description;
+    await this.app.mysql.insert("feedback", {
+      account: account,
+      title: title,
+      description: description
+    });
+    ctx.body = {
+      status: 200,
+      message: '上传成功',
+    };
+
   }
 }
 module.exports = index;
