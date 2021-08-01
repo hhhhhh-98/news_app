@@ -30,7 +30,7 @@
 
 				<view class="container" v-show="loading === false">
 					<!-- 推荐 -->
-					<view class="s-header"><text class="tit">相关推荐</text></view>
+				<!-- 	<view class="s-header"><text class="tit">相关推荐</text></view>
 					<view class="rec-section" v-for="item in newsList" :key="item.id">
 						<view class="rec-item">
 							<view class="left">
@@ -42,17 +42,16 @@
 							</view>
 							<view class="right" v-if="item.images.length > 0"><image class="img" :src="item.images[0]" mode="aspectFill"></image></view>
 						</view>
-					</view>
+					</view> -->
 
 					<!-- 评论 -->
 					<view class="s-header"><text class="tit">网友评论</text></view>
 					<view class="evalution">
 						<view v-for="(item, index) in evaList" :key="index" class="eva-item">
-							<image :src="item.src" mode="aspectFill"></image>
+							<image :src="item.headImg" mode="aspectFill"></image>
 							<view class="eva-right">
-								<text>{{ item.nickname }}</text>
+								<text>{{ item.account }}</text>
 								<text>{{ item.time }}</text>
-							
 								<text class="content">{{ item.content }}</text>
 							</view>
 						</view>
@@ -66,9 +65,9 @@
 		<view class="bottom">
 			<view class="input-box">
 				<text class="yticon icon-huifu"></text>
-				<input class="input" type="text" placeholder="点评一下把.." placeholder-style="color:#adb1b9;" />
+				<input class="input" v-model="content" type="text" placeholder="点评一下把.." placeholder-style="color:#adb1b9;" />
 			</view>
-			<text class="confirm-btn">提交</text>
+			<text class="confirm-btn" @click="addEvaList()">提交</text>
 		</view>
 
 		<!--底部分享弹窗-->
@@ -128,6 +127,7 @@ export default {
 	data() {
 		return {
 			loading: true,
+			content:'',
 			detailData: {},
 			newsList: [],
 			evaList: [],
@@ -224,8 +224,41 @@ export default {
 		},
 		//获取评论列表
 		async loadEvaList() {
-			this.evaList = await json.evaList;
+			const res = await this.$request.getComment({
+				newsid: this.detailData.id
+			})
+			this.evaList =  res.data.data;
+			for(let i = 0; i < this.evaList.length; i++){
+				this.evaList[i].headImg = this.$globle.imgUrl + this.evaList[i].headImg;
+			}
+			console.log(this.evaList)
+			this.$forceUpdate();
 		},
+		
+		//添加一条评论
+		async addEvaList() {
+			if(!this.$store.state.login){
+				uni.navigateTo({
+					url:"/pages/login/login"
+				})
+			}else{
+				const res = await this.$request.addComment({
+					newsid: this.detailData.id,
+					headImg: this.$store.state.user.headImg,
+					account: this.$store.state.user.account,
+					content: this.content,
+					time: new Date().toLocaleString()
+				})
+				if(res.data.status == 200){
+					this.content = "";
+					alert("提交成功")
+					
+					this.loadEvaList();
+				}
+			}
+			
+		},
+		
 		async shareClick() {
 			this.popupShow = !this.popupShow;
 		}

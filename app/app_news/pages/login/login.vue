@@ -158,14 +158,8 @@
 					this.$store.state.login = true;
 					this.$store.state.user = res.data.data;
 					this.$forceUpdate();
-					uni.switchTab({
-						url: "/pages/index/index",
-						success() {
-							let page = getCurrentPages().pop(); //跳转页面成功之后
-							if (!page) return;
-							page.onLoad();
-						}
-
+					uni.navigateBack({
+						
 					})
 				} else {
 					alert(res.data.message);

@@ -69,10 +69,22 @@ http.submitFeedBack = (query) => {
 	return httpRequest(api+ "/feedBack","POST",query)
 }
 
+//获取评论
+http.getComment = (query) => {
+	return httpRequest(api+ "/getComment","POST",query)
+}
+
+//添加评论
+http.addComment = (query) => {
+	return httpRequest(api+ "/addComment","POST",query)
+}
+
 //上传图片
 http.uploadImg = (query,tempFilePaths) => {
 	return httpUploadImg(api+"/uploadImg","POST",query,tempFilePaths)
 }
+
+
 
 
 export default http

@@ -131,7 +131,51 @@ class index extends Controller {
       status: 200,
       message: '上传成功',
     };
-
   }
+
+  //获取评论
+  async getComment() {
+    const { ctx } = this;
+    const query = ctx.request.body;
+    const newsid = query.newsid;
+  
+    const comment = await this.app.mysql.select(
+      'comment'
+      ,
+      { newsid: newsid } 
+    );
+    ctx.body = {
+      status: 200,
+      data: comment,
+    }
+  }
+
+  //添加评论
+  async addComment() {
+    const { ctx } = this;
+    const query = ctx.request.body;
+    const newsid = query.newsid;
+    const headImg =query.headImg;
+    const account = query.account;
+    const content = query.content;
+    const time = query.time;
+    await this.app.mysql.insert(
+      'comment',
+      { 
+        newsid: newsid,
+        headImg: headImg,
+        account: account,
+        content: content,
+        time: time
+      }
+    );
+    ctx.body = {
+      status: 200,
+      data: [],
+      message:'提交成功'
+    }
+  }
+
+
 }
 module.exports = index;

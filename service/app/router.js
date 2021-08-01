@@ -12,5 +12,7 @@ module.exports = app => {
   router.get('/getImg', controller.index.getImg);
   router.post('/updateUser', controller.index.updateUser);
   router.post('/feedBack', controller.index.insertFeedBack);
+  router.post('/addComment', controller.index.addComment);
+  router.post('/getComment', controller.index.getComment);
 
 };
