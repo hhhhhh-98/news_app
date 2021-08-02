@@ -13,13 +13,12 @@
 					<rich-text :nodes="detailData.flow"></rich-text>
 
 					<view class="actions" v-show="loading === false">
-						<view class="action-item">
-							<text class="yticon icon-dianzan-ash"></text>
-							<text>75</text>
-						</view>
-						<view class="action-item">
-							<text class="yticon icon-dianzan-ash reverse"></text>
-							<text>6</text>
+						<view class="action-item" @click="collect()">
+							<text><image src="../../static/img/collect.png" 
+								mode=""
+								style="width: 20px; height: 20px;"
+								></image></text>
+								<text>收藏</text>
 						</view>
 						<view class="action-item" @click="shareClick()">
 							<text class="yticon icon-fenxiang2"></text>
@@ -132,6 +131,7 @@ export default {
 		return {
 			loading: true,
 			detailData: {},
+			tableData: [],
 			newsList: [],
 			evaList: [],
 			popupShow: false,
@@ -214,10 +214,16 @@ export default {
 				key: this.$globle.app_key,
 				uniquekey: this.detailData.id,
 			}
+			console.log(this);
 			let res = await this.$request.getProductDetail(query);
 			const { content } = res.data.result;
+			this.tableData = res.data.result;
 			this.detailData.flow = content;
 				this.loading = false;
+		},
+		async collect() {
+			const query = this.tableData;
+			let res = await this.$request.collect();
 		},
 		//获取评论列表
 		async loadEvaList() {

@@ -1,11 +1,12 @@
 <template>
 	<!-- remove list-cell layer fix android 4.x overflow limit error: 28 layers! -->
 	<!-- <view class="list-cell view" @click="click"></view> -->
-	<view class="media-item view" hover-class="media-item-hover" v-if="options.title" @click="click">
+	<view class="media-item view" hover-class="media-item-hover" visited-class="media-item-visited" v-if="options.title" @click="click">
 		<!-- <view class="view" :style="options.article_type === 2 ? 'flex-direction: row';" :class="{'media-image-right': options.article_type === 2, 'media-image-left': options.article_type === 1}"> -->
 		<!-- TODO 在支付宝小程序下 需要用 style 覆盖标签的默认样式 -->
+		<div :class="isGray ? Gray : Black" @click="change()">
 		<view class="view" :style="{ flexDirection: options.article_type === 1 || options.article_type === 2 ? (options.article_type === 2 ? 'row' : 'row-reverse') : 'column' }">
-			<text class="media-title" :class="{ 'media-title2': options.article_type === 1 || options.article_type === 2 }">{{ options.title }}</text>
+				<text class="media-title" :class="{ 'media-title2': options.article_type === 1 || options.article_type === 2 }">{{ options.title }}</text>
 			<view
 				v-if="options.image_list || options.thumbnail_pic_s"
 				class="image-section flex-row"
@@ -34,6 +35,7 @@
 			</view>
 		</view>
 		<view class="media-item-line" style="position: absolute;"></view>
+		</div>
 	</view>
 </template>
 
@@ -47,12 +49,21 @@ export default {
 			}
 		}
 	},
+	data() {
+		return {
+			isGray: false,
+		}
+	},
 	methods: {
 		click() {
 			this.$emit('click');
 		},
 		close(e) {
 			this.$emit('close');
+		},
+		change() {
+			this.isGray = true;
+			console.log(this.isGray);
 		}
 	}
 };
@@ -79,7 +90,12 @@ export default {
 .uni-list-cell-hover {
 	background-color: #eeeeee;
 }
-
+.isGray {
+	color: #808080;
+}
+.Black {
+	
+}
 .media-item {
 	position: relative;
 	flex: 1;
@@ -88,10 +104,6 @@ export default {
 		border-bottom-style: solid;
 		border-bottom-color: #ebebeb; */
 	padding: 20rpx 30rpx 21rpx 30rpx;
-}
-
-.media-item-hover {
-	background-color: #eee;
 }
 
 .media-item-line {
@@ -119,9 +131,7 @@ export default {
 	lines: 3;
 	text-overflow: ellipsis;
 	font-size: 30rpx;
-	color: #555555;
 }
-
 .media-title2 {
 	flex: 1;
 	margin-top: 6rpx;

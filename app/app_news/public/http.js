@@ -26,4 +26,8 @@ http.getProductDetail = (query) => {
 http.getVideoList = (query) => {
 	return httpRequest('/videoapi/fapig/douyin/billboard', 'GET', query);
 }
+// 收藏调的接口
+http.collect = (query) => {
+	return httpRequest('url', 'POST', query);
+}
 export default http
