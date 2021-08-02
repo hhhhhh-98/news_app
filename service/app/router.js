@@ -6,5 +6,13 @@
 module.exports = app => {
   const { router, controller } = app;
   router.get('/', controller.home.index);
-  router.get('/index', controller.index.index);
+  router.post('/register', controller.index.register);
+  router.post('/resetpassword', controller.index.resetpassword);
+  router.post('/uploadImg', controller.index.uploadImage);
+  router.get('/getImg', controller.index.getImg);
+  router.post('/updateUser', controller.index.updateUser);
+  router.post('/feedBack', controller.index.insertFeedBack);
+  router.post('/addComment', controller.index.addComment);
+  router.post('/getComment', controller.index.getComment);
+
 };

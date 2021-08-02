@@ -68,6 +68,42 @@
 					"bounce": "none"
 				}
 			}
+		},
+		{
+			"path": "pages/userDetail/userDetail",
+			"style": {
+				"navigationBarTitleText": "详细信息",
+				"navigationBarBackgroundColor": "#ec706b",
+				"backgroundColor": "#f8f8f8",
+				"app-plus": {
+					"navigationBarTextStyle": "white",
+					"bounce": "none"
+				}
+			}
+		},
+		{
+			"path": "pages/password/password",
+			"style": {
+				"navigationBarTitleText": "修改密码",
+				"navigationBarBackgroundColor": "#ec706b",
+				"backgroundColor": "#f8f8f8",
+				"app-plus": {
+					"navigationBarTextStyle": "white",
+					"bounce": "none"
+				}
+			}
+		},
+		{
+			"path": "pages/feedback/feedback",
+			"style": {
+				"navigationBarTitleText": "问题反馈",
+				"navigationBarBackgroundColor": "#ec706b",
+				"backgroundColor": "#f8f8f8",
+				"app-plus": {
+					"navigationBarTextStyle": "white",
+					"bounce": "none"
+				}
+			}
 		}
 	],
 	"globalStyle": {

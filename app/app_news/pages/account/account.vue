@@ -62,17 +62,17 @@
 
 <template>
 	<view class="container">
-		<view @click="login" class="title">
+		<view  class="title" @click="toDetail()">
 			<image :src="avatar"></image>
 			<view class="info">
 				<text class="nickname">昵称：{{nickname}}</text>
 				<text v-show="!gender==''"  :class="[gender==1?'icon-nv':'icon-nv1']"></text>
 				<view>城市：{{city}}</view>
 			</view>
-			<view class="icon">登录/注册</view>
+			<view  class="icon" v-if="isShow">登录/注册</view>
 		</view>
 		<view class="item_list">
-			<view class="item">
+			<view class="item" @click="toPassword()">
 				<view class="wrap">
 					<text class="icon-icon-"></text>
 					<text>修改密码</text>
@@ -83,7 +83,7 @@
 			<view class="item">
 				<view class="wrap">
 					<text class="icon-yue"></text>
-					<text>我发布的</text>
+					<text>我评论的</text>
 				</view>
 				<text class="icon-arrow-down"></text>
 			</view>
@@ -94,7 +94,7 @@
 				</view>
 				<text class="icon-arrow-down"></text>
 			</view>
-			<view class="item">
+			<view class="item" @click="toFeedBack()">
 				<view class="wrap">
 					<text class="icon-yijianfankui1"></text>
 					<text>我要反馈</text>
@@ -110,24 +110,74 @@
 	export default{
 		data(){
 			return{
-				nickname:"",
+				nickname: "",
 				gender:"",
 				avatar:"",
-				city:""
+				city:"",
+				isShow: true,
 			}
 		},
-		onLoad(res) {
-			console.log(res),
-			this.avatar=res.avatar,
-			this.gender=res.gender,
-			this.nickname=res.nickname,
-			this.city=res.city
+		onShow() {
+			this.nickname = this.$store.state.user.name || "";
+			this.gender = 1;
+			this.city = this.$store.state.user.city || "";
+			this.isShow = !this.$store.state.login;
+			if(!this.isShow)
+				this.avatar = this.$globle.imgUrl +this.$store.state.user.headImg;
 		},
 		methods:{
-			login(){
-				uni.navigateTo({
-					url:"/pages/login/login"
-				})
+			toDetail(){
+				if(!this.$store.state.login)
+					uni.navigateTo({
+						url:"/pages/login/login"
+					})
+				else
+					uni.navigateTo({
+						url:"/pages/userDetail/userDetail"
+					})
+			},
+			toPassword() {
+				if(!this.$store.state.login)
+					uni.navigateTo({
+						url:"/pages/login/login"
+					})
+				else
+					uni.navigateTo({
+						url:"/pages/password/password"
+					})
+			},
+			
+			toComment() {
+				if(!this.$store.state.login)
+					uni.navigateTo({
+						url:"/pages/login/login"
+					})
+				else
+					uni.navigateTo({
+						url:"/pages/userDetail/userDetail"
+					})
+			},
+			
+			toCollect() {
+				if(!this.$store.state.login)
+					uni.navigateTo({
+						url:"/pages/login/login"
+					})
+				else
+					uni.navigateTo({
+						url:"/pages/userDetail/userDetail"
+					})
+			},
+			
+			toFeedBack() {
+				if(!this.$store.state.login)
+					uni.navigateTo({
+						url:"/pages/login/login"
+					})
+				else
+					uni.navigateTo({
+						url:"/pages/feedback/feedback"
+					})
 			}
 		}
 	}

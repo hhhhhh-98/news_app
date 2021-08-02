@@ -1,5 +1,6 @@
 export default {
   app_key:"88d40dbfd944f0e6ce3366c878238848",
+  imgUrl: "http://127.0.0.1:7001/getImg?img=",
   //方法写在下面 注释写上方法的作用和参数的意义
   
   /*
@@ -19,5 +20,17 @@ export default {
 		    url: '/pages/login/login'  
 		});
 	}
-  }
+  },
+  
+  //获取字符串hash,用于判断字符串是否重复 评论功能使用
+  hashCode : function(str){
+      var hash  =   1315423911,i,ch;
+          for (i = str.length - 1; i >= 0; i--) {
+              ch = str.charCodeAt(i);
+              hash ^= ((hash << 5) + ch + (hash >> 2));
+          }
+          return  (hash & 0x7FFFFFFF);
+  },
+  
+
 }
